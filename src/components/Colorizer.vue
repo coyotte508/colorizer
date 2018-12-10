@@ -4,9 +4,13 @@
       <div class="col-md-5 text-center">
         <div id="dropzone">Glissez l'image ici</div>
         <material-picker v-model="colors" class="mt-4 mx-auto" />
+        <div class="mt-4 f4">
+          <span class="fa fa-search-plus" @click="zoomIn"/>
+          <span class="fa fa-search-minus ml-2" @click="zoomOut" />
+        </div>
       </div>
       <div class="col-md-7">
-        <svg width="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2241 1601">
+        <svg width="100%" xmlns="http://www.w3.org/2000/svg" :viewBox="`${left} ${top} ${right} ${bottom}`">
           <defs>
             <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
               <path d="M 8 0 L 0 0 0 8" fill="none" stroke="gray" stroke-width="0.5"/>
@@ -24,7 +28,7 @@
             </filter>
           </defs>
 
-          <rect width="100%" height="100%" fill="url(#grid)" />
+          <rect :x="-width" :y="-height" :width="3*width" :height="3*height" fill="url(#grid)" />
           <image :xlink:href="image" v-if="image" filter="url(#f1)" x=40 y=40 width=2160 height=1520 />
         </svg>
       </div>
@@ -44,6 +48,7 @@ import { Slider } from 'vue-color';
 export default class Colorizer extends Vue {
   colors = {"hsl": {"h":168.4729064039409,"s":0.5,"l":0.5,"a":1},"hex":"#40BFA7","hex8":"#40BFA7FF","rgba":{"r":64,"g":191,"b":167,"a":1},"hsv":{"h":168.4729064039409,"s":0.6666666666666666,"v":0.75,"a":1},"oldHue":168.4729064039409,"source":"hsl","a":1};
   image?: ArrayBuffer | string = "";
+  zoom = 0;
 
   private dragover(evt: DragEvent) {
     evt.dataTransfer.dropEffect = "copy";
@@ -51,6 +56,55 @@ export default class Colorizer extends Vue {
 
   public get x() {
     return 0.5;
+  }
+
+  public get centerX() {
+    return this.width/2;
+  }
+
+  public get centerY() {
+    return this.height/2;
+  }
+
+  public get ratio() {
+    return this.width/this.height;
+  }
+
+  public get left() {
+    const w = this.width * (1 - this.zoom / (1 + Math.abs(this.zoom)));
+
+    return this.centerX - w/2;
+  }
+
+  public get right() {
+    return this.width * (1 - this.zoom / (1 + Math.abs(this.zoom))) + 2;
+  }
+
+  public get top() {
+    const w = this.width * (1 - this.zoom / (1 + Math.abs(this.zoom)));
+
+    return this.centerY - (w/this.ratio)/2;
+  }
+
+  public get bottom() {
+    const w = this.width * (1 - this.zoom / (1 + Math.abs(this.zoom)));
+    return w/this.ratio + 2;
+  }
+
+  public get width() {
+    return 2240;
+  }
+
+  public get height() {
+    return 1600;
+  }
+
+  public zoomIn() {
+    this.zoom += 0.25;
+  }
+
+  public zoomOut() {
+    this.zoom -= 0.25;
   }
 
   public get r() {
@@ -87,7 +141,7 @@ export default class Colorizer extends Vue {
 <style scoped lang="scss">
 
 @import "~bootstrap/scss/bootstrap.scss";
-
+@import "~font-awesome/css/font-awesome.css";
 
 #dropzone {
   border: 2px dashed #bbb;
@@ -97,6 +151,11 @@ export default class Colorizer extends Vue {
   font: 20pt bold;
   color: #bbb;
   width: 100%;
+}
+
+.fa {
+  font-size: 18pt;
+  cursor: pointer;
 }
 
 </style>
