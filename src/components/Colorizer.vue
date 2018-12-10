@@ -1,12 +1,12 @@
 <template>
-  <div class="container"  @dragover.stop.prevent="dragover" @drop.stop.prevent="onDrop">
+  <div class="container-fluid"  @dragover.stop.prevent="dragover" @drop.stop.prevent="onDrop">
     <div class="row">
       <div class="col-md-5 text-center">
         <div id="dropzone">Glissez l'image ici</div>
         <material-picker v-model="colors" class="mt-4 mx-auto" />
       </div>
       <div class="col-md-7">
-        <svg width="561" height="481" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1121 961">
+        <svg width="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2241 1601">
           <defs>
             <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
               <path d="M 8 0 L 0 0 0 8" fill="none" stroke="gray" stroke-width="0.5"/>
@@ -25,7 +25,7 @@
           </defs>
 
           <rect width="100%" height="100%" fill="url(#grid)" />
-          <image :xlink:href="image" v-if="image" filter="url(#f1)" x=20 y=20 width=1080 height=920 />
+          <image :xlink:href="image" v-if="image" filter="url(#f1)" x=40 y=40 width=2160 height=1520 />
         </svg>
       </div>
     </div>
