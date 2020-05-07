@@ -21,9 +21,9 @@
             </pattern>
 
             <filter id="f1" x="0%" y="0%" width="100%" height="100%">
-            <feColorMatrix id="greyscaler" type="matrix" :values="`${r/(3*x)} ${r/(3*x)} ${r/(3*x)} 0 0 
-                                                            ${g/(3*x)} ${g/(3*x)} ${g/(3*x)} 0 0 
-                                                            ${b/(3*x)} ${b/(3*x)} ${b/(3*x)} 0 0 
+            <feColorMatrix id="greyscaler" type="matrix" :values="`${r/(3*x)} ${r/(3*x)} ${r/(3*x)} 0 0
+                                                            ${g/(3*x)} ${g/(3*x)} ${g/(3*x)} 0 0
+                                                            ${b/(3*x)} ${b/(3*x)} ${b/(3*x)} 0 0
                                                              0    0   0 1 0`"/>
             </filter>
           </defs>
@@ -50,30 +50,26 @@ export default class Colorizer extends Vue {
   image?: ArrayBuffer | string = "";
   zoom = 0;
 
-  private dragover(evt: DragEvent) {
-    evt.dataTransfer.dropEffect = "copy";
-  }
-
   public get x() {
     return 0.5;
   }
 
   public get centerX() {
-    return this.width/2;
+    return this.width / 2;
   }
 
   public get centerY() {
-    return this.height/2;
+    return this.height / 2;
   }
 
   public get ratio() {
-    return this.width/this.height;
+    return this.width / this.height;
   }
 
   public get left() {
     const w = this.width * (1 - this.zoom / (1 + Math.abs(this.zoom)));
 
-    return this.centerX - w/2;
+    return this.centerX - w / 2;
   }
 
   public get right() {
@@ -83,12 +79,12 @@ export default class Colorizer extends Vue {
   public get top() {
     const w = this.width * (1 - this.zoom / (1 + Math.abs(this.zoom)));
 
-    return this.centerY - (w/this.ratio)/2;
+    return this.centerY - (w / this.ratio) / 2;
   }
 
   public get bottom() {
     const w = this.width * (1 - this.zoom / (1 + Math.abs(this.zoom)));
-    return w/this.ratio + 2;
+    return w / this.ratio + 2;
   }
 
   public get width() {
@@ -133,6 +129,10 @@ export default class Colorizer extends Vue {
 
     reader.readAsDataURL(file);
     reader.onload = e => this.image = (e.target as FileReader).result;
+  }
+
+  private dragover(evt: DragEvent) {
+    evt.dataTransfer.dropEffect = "copy";
   }
 }
 </script>
