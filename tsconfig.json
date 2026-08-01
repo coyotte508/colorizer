@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "strict": false,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
@@ -24,7 +23,13 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
+    "skipLibCheck": true,
+    "noImplicitThis": false,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false,
+    "emitDecoratorMetadata": false,
+    "noImplicitAny": false
   },
   "include": [
     "src/**/*.ts",
